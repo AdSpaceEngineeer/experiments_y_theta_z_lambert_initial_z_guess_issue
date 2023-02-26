@@ -2,7 +2,6 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 
-#Stumpff functions
 def func_C(z):
     if z>0:
         c = (1-math.cos(np.sqrt(z)))/z
@@ -20,23 +19,27 @@ def func_S(z):
     else: 
         s = 1/6
     return s
+    
+    r1 = 4
+r2 = 6
+theta = (7/20)*math.pi #manually run values of theta from 1st to 4th quadrant
 
-z_list = [z for z in range(-40, 40, 2)]
-y_list = []
+A = np.sqrt(r1*r2)*math.sin(theta)/np.sqrt(1-math.cos(theta))
+zi_range = np.arange(-40, 40, 2)
+y = np.zeros(len(zi_range))
+i=0
 
-r1 = 6
-r2 = 10
-theta = (19/10)*math.pi
-A = np.sqrt(r1*r2*(1+math.cos(theta)))
-for z in z_list:
-    C = func_C(z)
-    S = func_S(z)
-    y_list.append(r1 + r2 + A*(z*S-1)/np.sqrt(C))
 
-plt.plot(z_list, y_list)
+for zi in zi_range:
+    C = func_C(zi)
+    S = func_S(zi)
+    y[i] = r1 + r2 + A*(zi*S-1)/np.sqrt(C) 
+    i+=1
+    
+plt.plot(zi_range, y, color = 'black')
 plt.axhline(y=0)
 plt.axvline(x=0)
-plt.title('y vs z for theta = 19pi/10')
+plt.title('y vs z for theta = 7pi/20') #change plot title according to theta value given
 plt.xlabel('z values from -40 to 40')
 plt.ylabel('y as a func of z and theta in Lambert solvers')
 plt.show()
