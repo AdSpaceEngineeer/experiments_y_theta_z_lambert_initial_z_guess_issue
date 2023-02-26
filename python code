@@ -1,0 +1,42 @@
+import numpy as np
+import math
+import matplotlib.pyplot as plt
+
+#Stumpff functions
+def func_C(z):
+    if z>0:
+        c = (1-math.cos(np.sqrt(z)))/z
+    elif z < 0 : 
+        c = (math.cosh(np.sqrt(-z)) - 1)/(-z)
+    else: 
+        c = 1/2
+    return c
+
+def func_S(z):
+    if z>0: 
+        s = (np.sqrt(z) - math.sin(np.sqrt(z)))/ (np.sqrt(z))**3
+    elif z<0 : 
+        s = (math.sinh(np.sqrt(-z)) - np.sqrt(-z))/ (np.sqrt(-z))**3
+    else: 
+        s = 1/6
+    return s
+
+z_list = [z for z in range(-40, 40, 2)]
+y_list = []
+
+r1 = 6
+r2 = 10
+theta = (19/10)*math.pi
+A = np.sqrt(r1*r2*(1+math.cos(theta)))
+for z in z_list:
+    C = func_C(z)
+    S = func_S(z)
+    y_list.append(r1 + r2 + A*(z*S-1)/np.sqrt(C))
+
+plt.plot(z_list, y_list)
+plt.axhline(y=0)
+plt.axvline(x=0)
+plt.title('y vs z for theta = 19pi/10')
+plt.xlabel('z values from -40 to 40')
+plt.ylabel('y as a func of z and theta in Lambert solvers')
+plt.show()
